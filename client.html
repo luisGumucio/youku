@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-ng-app="JuTubeApp">
+
+<head>
+  <!-- page title -->
+  <title>YouTube in Your App</title>
+  <!-- This is the source of the Javscript for the demo -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/assets/js/angular.min.js"></script>
+  <script src="/assets/js/client.js"></script>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+
+<body data-ng-controller="VideosController">
+  <header>
+    <h1>Ju<strong>Tube</strong></h1>
+    <form id="search" data-ng-submit="search()">
+      <input id="query" name="q" type="text" placeholder="Search for a YouTube video" data-ng-model="query" />
+      <input id="submit" type="image" src="search.png" alt="Search" />
+    </form>
+  </header>
+  <div id="results">
+    <div class="video" data-ng-repeat="video in results" data-ng-click="queue(video)">
+      <img class="video-image" data-ng-src="{{ video.thumbnail }}" />
+      <p class="video-title">{{ video.title }}</p>
+      <p class="video-author">{{ video.author }}</p>
+      <p class="video-description">{{ video.description }}</p>
+    </div>
+  </div>
+  <div id="player">
+    <div style="position: relative;height: 85px;">
+      <button data-ng-click="createTicket()" class="myButton">crear Ticket</button>
+      <div id="play" class="play-bt" data-ng-click="play()"></div>
+      <!-- <div id="pause" class="pause-bt"  data-ng-click="pause()"></div> -->
+      <div class="mute-bt"></div>
+      <div class="stop-bt" data-ng-click="stop()"></div>
+    </div>
+    <div style="height: 390px; overflow-y: scroll;">
+      <ol id="upcoming">
+        <li data-ng-repeat="video in tickets">
+          <div id="{{video._id}}">
+            <p  class="item-delete" data-ng-click="deleteTicket(tickets, video._id)">
+              Eliminar
+            </p>
+            <p  class="item-delete" data-ng-click="playTicket(video._id)">
+              Play
+            </p>
+          </div>
+          <p id="{{video.number}}" class="item-title" data-ng-click="launchList(video)">
+            Numero de ticket {{ video.number }}
+          </p>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div id="playlist">
+    <li data-ng-repeat="music in playList">
+      <p class="item-delete" data-ng-click="deleteMusic(music)">
+        Eliminar
+      </p>
+      <p class="item-title" data-ng-click="launch(video.id, video.title)">
+        {{ music.name }}
+      </p>
+    </li>
+  </div>
+  <!-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onClick="loadNewVideo()">Load</button> -->
+</body>
+
+</html>
